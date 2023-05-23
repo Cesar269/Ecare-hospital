@@ -12,9 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import { NavLink } from "react-router-dom";
 
-const pages = ['Citas', 'Servicios', 'Inventario', 'Otros'];
-const settings = ['Historial Clinico', 'Recetas', 'Datos personales', 'Cerrar sesión'];
+const pages = ['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'];
+const settings = ['Datos personales', 'Historial Clinico', 'Recetas', 'Cerrar sesión'];
 
 function Header() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -94,7 +95,7 @@ function Header() {
                             ))}
                         </Menu>
                     </Box>
-                    <LocalHospitalIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}/>
+                    <LocalHospitalIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -148,9 +149,11 @@ function Header() {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
+                                <NavLink to="/DatosUsuario" style={{textDecoration:"none",color:"black"}}>
+                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                </NavLink>
                             ))}
                         </Menu>
                     </Box>
