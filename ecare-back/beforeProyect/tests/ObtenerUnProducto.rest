@@ -1,0 +1,6 @@
+
+## Obtener solo un producto ##
+GET  http://localhost:3000/api/v1/products/1 HTTP/1.1
+
+
+

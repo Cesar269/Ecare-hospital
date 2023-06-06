@@ -15,7 +15,9 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { NavLink } from "react-router-dom";
 
 const pages = ['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'];
-const settings = ['Datos personales', 'Historial Clinico', 'Recetas', 'Cerrar sesión'];
+const linksPages = ['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos']
+const settings = ['Actualizar datos', 'Ingresar nuevo usuario', 'Nuevo servicio' ,'Despliegue medicamentos','Despliegue citas','Historial Clinico', 'Recetas', 'Cerrar sesión'];
+const linksSettings = ['/DatosUsuario', '/NuevoUsuario', '/NuevoServicio','/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/"];
 
 function Header() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -88,10 +90,12 @@ function Header() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
+                            {pages.map((page, i) => (
+                                <NavLink key={page} to={linksPages[i]} style={{ textDecoration: "none", color: "black" }}>
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">{page}</Typography>
+                                    </MenuItem>
+                                </NavLink>
                             ))}
                         </Menu>
                     </Box>
@@ -115,21 +119,23 @@ function Header() {
                         E-care
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                        {pages.map((page,i) => (
+                            <NavLink key={page} to={linksPages[i]} style={{ textDecoration: "none", color: "black" }}>
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button>
+                            </NavLink>
                         ))}
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
+                        <Tooltip title="Opciones de usuario">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="Zaaaz" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -148,9 +154,9 @@ function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <NavLink to="/DatosUsuario" style={{textDecoration:"none",color:"black"}}>
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                            {settings.map((setting, i) => (
+                                <NavLink key={setting} to={linksSettings[i]} style={{ textDecoration: "none", color: "black" }}>
+                                    <MenuItem onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center">{setting}</Typography>
                                     </MenuItem>
                                 </NavLink>
