@@ -13,10 +13,9 @@ export default function Inicio() {
     const post = {
         title: 'Bienvenid@ a E-care',
         description:
-            "E-care es una plataforma digital destinada a los pacientes, doctores y personal de apoyo del hospital E-care, si no estás registrado ¡¡¿Qué esperas?!!",
+            "E-care es una plataforma digital destinada a los pacientes, doctores y personal de apoyo del hospital E-care, disfruta de ella.",
         image: 'https://source.unsplash.com/random?wallpapers',
         imageText: 'Inicio',
-        linkText: 'Agendar una cita',
     };
 
     return (
@@ -61,10 +60,6 @@ export default function Inicio() {
                             <Typography variant="h6" color="inherit" paragraph>
                                 {post.description}
                             </Typography>
-                            <Button variant="contained" href="#">
-                                {post.linkText}
-                            </Button>
-
                         </Box>
                     </Grid>
                 </Grid>

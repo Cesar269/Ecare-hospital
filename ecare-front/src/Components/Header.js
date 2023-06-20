@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,15 +13,52 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { NavLink } from "react-router-dom";
+import { LocalGasStationRounded } from '@mui/icons-material';
 
 const pages = ['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'];
 const linksPages = ['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos']
-const settings = ['Actualizar datos', 'Ingresar nuevo usuario', 'Nuevo servicio' ,'Despliegue medicamentos','Despliegue citas','Historial Clinico', 'Recetas', 'Cerrar sesión'];
-const linksSettings = ['/DatosUsuario', '/NuevoUsuario', '/NuevoServicio','/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/"];
+const settings = ['Actualizar datos', 'Ingresar nuevo usuario', 'Nuevo servicio', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'];
+const linksSettings = ['/DatosUsuario', '/NuevoUsuario', '/NuevoServicio', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/"];
 
-function Header() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+function Header({ children }) {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [pages, setPages] = useState([]);
+    const [linksPages, setLinksPages] = useState([]);
+    const [settings, setSettings] = useState([]);
+    const [linksSettings, setLinksSettings] = useState([]);
+
+
+    useEffect(() => {
+        const tipoUsuario = parseInt(localStorage.getItem("tipoUsuario"))
+        if (tipoUsuario === 1) {
+            //paginas para el paciente
+            setPages(['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'])
+            setLinksPages(['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos'])
+            //configuraciones para el paciente
+            setSettings(['Actualizar datos', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'])
+            setLinksSettings(['/DatosUsuario', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/CerrarSesion"])
+        }
+        if (tipoUsuario === 2) {
+            //paginas para el doctor
+            setPages(['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'])
+            setLinksPages(['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos'])
+            //configuraciones para el doctor
+            setSettings(['Actualizar datos', 'Nuevo servicio', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'])
+            setLinksSettings(['/DatosUsuario', '/NuevoServicio', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/CerrarSesion"])
+        }
+        if (tipoUsuario === 3) {
+            //paginas para el administrador
+            setPages(['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'])
+            setLinksPages(['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos'])
+            //configuraciones para el administrador
+            setSettings(['Actualizar datos', 'Ingresar nuevo usuario', 'Nuevo servicio', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'])
+            setLinksSettings(['/DatosUsuario', '/NuevoUsuario', '/NuevoServicio', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/CerrarSesion"])
+        }
+        setIsLoading(false);
+    }, []);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -38,134 +75,145 @@ function Header() {
         setAnchorElUser(null);
     };
 
-    return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <LocalHospitalIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.2rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        E-care
-                    </Typography>
+    if (isLoading) {
+        return (
+            <>
+            </>
+        );
+    }
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+
+    return (
+        <>
+            <AppBar position="static">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <LocalHospitalIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/"
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.2rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
                             }}
                         >
+                            E-care
+                        </Typography>
+
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {pages.map((page, i) => (
+                                    <NavLink key={page} to={linksPages[i]} style={{ textDecoration: "none", color: "black" }}>
+                                        <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">{page}</Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                ))}
+                            </Menu>
+                        </Box>
+                        <LocalHospitalIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.2rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            E-care
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page, i) => (
                                 <NavLink key={page} to={linksPages[i]} style={{ textDecoration: "none", color: "black" }}>
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
-                                    </MenuItem>
+                                    <Button
+                                        key={page}
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        {page}
+                                    </Button>
                                 </NavLink>
                             ))}
-                        </Menu>
-                    </Box>
-                    <LocalHospitalIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.2rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        E-care
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page,i) => (
-                            <NavLink key={page} to={linksPages[i]} style={{ textDecoration: "none", color: "black" }}>
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
-                            </NavLink>
-                        ))}
-                    </Box>
+                        </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Opciones de usuario">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Zaaaz" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting, i) => (
-                                <NavLink key={setting} to={linksSettings[i]} style={{ textDecoration: "none", color: "black" }}>
-                                    <MenuItem onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                </NavLink>
-                            ))}
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Opciones de usuario">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt={localStorage.getItem('nombre')} src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {settings.map((setting, i) => (
+                                    <NavLink key={setting} to={linksSettings[i]} style={{ textDecoration: "none", color: "black" }}>
+                                        <MenuItem onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                ))}
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            {children}
+        </>
     );
 }
 export default Header;

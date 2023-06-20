@@ -22,6 +22,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import Loader from "../Components/Loader";
 
 const BotonAccion = ({ children, actualizarExistencia, nombreMedicamento, accion }) => {
 
@@ -49,7 +50,7 @@ export default function Medicamentos() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3001/usuarios/obtenerMedicamentos`)
+            .get(`http://localhost:3001/medicamentos/obtenerMedicamentos`)
             .then((response) => {
                 setMedicamentos(response.data)
                 setIsLoading(false);
@@ -66,7 +67,7 @@ export default function Medicamentos() {
     const actualizarExistencia = (accion, nombre_medicamento) => {
         setIsLoading(true);
         axios
-            .post(`http://localhost:3001/usuarios/actualizarExistencia`, { accion, nombre_medicamento })
+            .post(`http://localhost:3001/medicamentos/actualizarExistencia`, { accion, nombre_medicamento })
             .then((response) => {
                 setMedicamentos(response.data)
                 setIsLoading(false);
@@ -94,7 +95,7 @@ export default function Medicamentos() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/usuarios/ingresarMedicamento`, {
+            .post(`http://localhost:3001/medicamentos/ingresarMedicamento`, {
                 nombre_medicamento: data.get("nombre_medicamento"),
                 descripcion: data.get("descripcion"),
                 existencia: data.get("existencia"),
@@ -118,11 +119,7 @@ export default function Medicamentos() {
     }
     if (isLoading) {
         return (
-            <Container>
-                <Box sx={{ display: 'flex' }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
+            <Loader></Loader>
         );
     }
 

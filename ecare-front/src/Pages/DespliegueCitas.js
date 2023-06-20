@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import Loader from "../Components/Loader";
 
 
 export default function DespliegueCitas() {
@@ -29,7 +30,7 @@ export default function DespliegueCitas() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/usuarios/desplegarCitas`, {
+            .post(`http://localhost:3001/citas/desplegarCitas`, {
                 curp: data.get('curp'),
                 fecha: data.get('fecha')
             })
@@ -50,11 +51,7 @@ export default function DespliegueCitas() {
 
     if (isLoading) {
         return (
-            <Container>
-                <Box sx={{ display: 'flex' }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
+            <Loader></Loader>
         );
     }
 

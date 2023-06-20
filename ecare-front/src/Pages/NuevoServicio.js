@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import Loader from "../Components/Loader";
 
 
 export default function NuevoServicio() {
@@ -24,7 +25,7 @@ export default function NuevoServicio() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3001/usuarios/obtenerServicios`)
+            .get(`http://localhost:3001/servicios/obtenerServicios`)
             .then((response) => {
                 setServicios(response.data)
                 setIsLoading(false);
@@ -44,7 +45,7 @@ export default function NuevoServicio() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/usuarios/ingresarServicio`, { 
+            .post(`http://localhost:3001/servicios/ingresarServicio`, { 
                 tipo_servicio : data.get("nombre"),
                 costo : data.get("costo")
              })
@@ -65,11 +66,7 @@ export default function NuevoServicio() {
 
     if (isLoading) {
         return (
-            <Container>
-                <Box sx={{ display: 'flex' }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
+            <Loader></Loader>
         );
     }
 

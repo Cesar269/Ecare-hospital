@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Loader from "../Components/Loader";
 
 
 export default function DatosUsuario() {
@@ -73,11 +74,7 @@ export default function DatosUsuario() {
 
     if (isLoading) {
         return (
-            <Container>
-                <Box sx={{ display: 'flex' }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
+            <Loader></Loader>
         );
     }
 

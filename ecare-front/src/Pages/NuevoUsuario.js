@@ -16,6 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import Loader from "../Components/Loader";
 
 export default function NuevoUsuario() {
     const [isLoading, setIsLoading] = useState(true);
@@ -91,11 +92,7 @@ export default function NuevoUsuario() {
 
     if (isLoading) {
         return (
-            <Container>
-                <Box sx={{ display: 'flex' }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
+            <Loader></Loader>
         );
     }
 

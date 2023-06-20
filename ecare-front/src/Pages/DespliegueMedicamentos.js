@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import Loader from "../Components/Loader";
 
 
 export default function DespliegueMedicamentos() {
@@ -29,7 +30,7 @@ export default function DespliegueMedicamentos() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/usuarios/desplegarMedicamentos`, {
+            .post(`http://localhost:3001/medicamentos/desplegarMedicamentos`, {
                 curp: data.get('curp'),
                 nombre: data.get('nombre'),
                 ap_paterno: data.get('apellidoPaterno'),
@@ -52,11 +53,7 @@ export default function DespliegueMedicamentos() {
 
     if (isLoading) {
         return (
-            <Container>
-                <Box sx={{ display: 'flex' }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
+            <Loader></Loader>
         );
     }
 
