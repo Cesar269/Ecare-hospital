@@ -8,9 +8,14 @@ import Loader from "./Loader";
 const Layout = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const location = useLocation();
 
 
     useEffect(() => {
+        const path = location.pathname
+        if(path === "/"){
+            navigate("/home")
+        }
        if(!localStorage.getItem('curp')) {
         setIsLoading(false)
         navigate("/login")}

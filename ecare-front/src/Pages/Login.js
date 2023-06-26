@@ -119,11 +119,6 @@ export default function Login() {
                         INICIAR
                     </Button>
                     <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                ¿Olvidaste tu contraseña?
-                            </Link>
-                        </Grid>
                         <Grid item>
                             <Link href="#" variant="body2">
                                 {"¿No tienes cuenta? Crea una."}

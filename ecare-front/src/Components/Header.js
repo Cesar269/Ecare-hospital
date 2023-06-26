@@ -35,27 +35,27 @@ function Header({ children }) {
         const tipoUsuario = parseInt(localStorage.getItem("tipoUsuario"))
         if (tipoUsuario === 1) {
             //paginas para el paciente
-            setPages(['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'])
-            setLinksPages(['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos'])
+            setPages(['Citas', 'Servicios'])
+            setLinksPages(['/CitasPaciente', '/ServiciosGeneral'])
             //configuraciones para el paciente
-            setSettings(['Actualizar datos', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'])
-            setLinksSettings(['/DatosUsuario', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/CerrarSesion"])
+            setSettings(['Actualizar y ver datos', 'Mis recetas', 'Cerrar sesión'])
+            setLinksSettings(['/DatosUsuario',"/MisRecetas", "/CerrarSesion"])
         }
         if (tipoUsuario === 2) {
             //paginas para el doctor
-            setPages(['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'])
-            setLinksPages(['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos'])
+            setPages(['Citas', 'Recetas', 'Pacientes', 'Servicios'])
+            setLinksPages(['/CitasDoctor', '/RecetasDoctor', '/PacientesDoctor', '/ServiciosGeneral'])
             //configuraciones para el doctor
-            setSettings(['Actualizar datos', 'Nuevo servicio', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'])
-            setLinksSettings(['/DatosUsuario', '/NuevoServicio', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/CerrarSesion"])
+            setSettings(['Actualizar y ver datos','Altas y bajas', 'Cerrar sesión'])
+            setLinksSettings(['/DatosUsuario',"/AltasBajasInfo", "/CerrarSesion"])
         }
         if (tipoUsuario === 3) {
             //paginas para el administrador
-            setPages(['Citas y servicios', 'Medicamentos', 'Laboratorios', 'Otros'])
-            setLinksPages(['/Medicamentos', '/Medicamentos', '/Medicamentos', '/Medicamentos'])
+            setPages(['Citas', 'Consultorios', 'Almacen', 'Pacientes'])
+            setLinksPages(['/CitasAdmin', '/ConsultoriosAdmin', '/AlmacenAdmin', '/PacientesAdmin'])
             //configuraciones para el administrador
-            setSettings(['Actualizar datos', 'Ingresar nuevo usuario', 'Nuevo servicio', 'Despliegue medicamentos', 'Despliegue citas', 'Historial Clinico', 'Recetas', 'Cerrar sesión'])
-            setLinksSettings(['/DatosUsuario', '/NuevoUsuario', '/NuevoServicio', '/DespliegueMedicamentos', '/DespliegueCitas', '/HistorialClinico', '/Recetas', "/CerrarSesion"])
+            setSettings(['Actualizar y ver datos','Altas y bajas', 'Cerrar sesión'])
+            setLinksSettings(['/DatosUsuario', "/AltasBajasInfo","/CerrarSesion"])
         }
         setIsLoading(false);
     }, []);

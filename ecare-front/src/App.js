@@ -1,21 +1,24 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inicio from "../src/Pages/Inicio";
-import DatosUsuario from "./Pages/DatosUsuario";
-import HistorialClinico from "./Pages/HistorialClinico";
-import Recetas from "./Pages/Recetas";
-import NuevoUsuario from "./Pages/NuevoUsuario";
-import Header from "./Components/Header";
-import Medicamentos from "./Pages/Medicamentos";
-import NuevoServicio from "./Pages/NuevoServicio";
-import DespliegueCitas from "./Pages/DespliegueCitas";
-import DespliegueMedicamentos from "./Pages/DespliegueMedicamentos";
+import DatosUsuario from "./Pages/Settings/DatosUsuario";
 import Login from "./Pages/Login";
 import Layout from "./Components/Layout";
 import Unauthorized from "./Components/Unauthorized";
 import RequireAuth from "./Components/RequireAuth";
 import Missing from "./Components/Missing";
-import CerrarSesion from "./Pages/CerrarSesion";
+import CerrarSesion from "./Pages/Settings/CerrarSesion";
+import AltasBajasInfo from "./Pages/Settings/AltasBajasInfo";
+import MisRecetasPaciente from "./Pages/Settings/MisRecetasPaciente";
+import CitasPaciente from "./Pages/BarraNav/CitasPaciente"
+import AlmacenAdmin from "./Pages/BarraNav/AlmacenAdmin"
+import CitasAdmin from "./Pages/BarraNav/CitasAdmin"
+import CitasDoctor from "./Pages/BarraNav/CitasDoctor"
+import ConsultoriosAdmin from "./Pages/BarraNav/ConsultoriosAdmin"
+import PacientesAdmin from "./Pages/BarraNav/PacientesAdmin"
+import PacientesDoctor from "./Pages/BarraNav/PacientesDoctor"
+import RecetasDoctor from "./Pages/BarraNav/RecetasDoctor"
+import ServiciosGeneral from "./Pages/BarraNav/ServiciosGeneral"
 
 const ROLES = {
   'paciente': '1',
@@ -37,29 +40,44 @@ function App() {
           {/* we want to protect these routes */}
           <Route element={<RequireAuth allowedRoles={[ROLES.paciente, ROLES.doctor, ROLES.admin]} />}>
             <Route path="/home" element={<Inicio />} />
+            <Route path="DatosUsuario" element={<DatosUsuario />} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.doctor, ROLES.admin]} />}>
+            <Route path="AltasBajasInfo" element={<AltasBajasInfo />} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.paciente]} />}>
+            <Route path="MisRecetas" element={<MisRecetasPaciente />} />
+            <Route path="CitasPaciente" element={<CitasPaciente />} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.paciente,ROLES.doctor]} />}>
+            <Route path="ServiciosGeneral" element={<ServiciosGeneral />} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.doctor]} />}>
+            <Route path="CitasDoctor" element={<CitasDoctor />} />
+            <Route path="RecetasDoctor" element={<RecetasDoctor />} />
+            <Route path="PacientesDoctor" element={<PacientesDoctor />} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
+            <Route path="CitasAdmin" element={<CitasAdmin />} />
+            <Route path="ConsultoriosAdmin" element={<ConsultoriosAdmin />} />
+            <Route path="AlmacenAdmin" element={<AlmacenAdmin />} />
+            <Route path="PacientesAdmin" element={<PacientesAdmin />} />
+
           </Route>
 
 
-          <Route exact path="DatosUsuario" element={<DatosUsuario />} />
-          <Route exact path="HistorialClinico" element={<HistorialClinico />} />
+          {/* <Route exact path="HistorialClinico" element={<HistorialClinico />} />
           <Route exact path="Recetas" element={<Recetas />} />
           <Route exact path="NuevoUsuario" element={<NuevoUsuario />} />
           <Route exact path="Medicamentos" element={<Medicamentos />} />
           <Route exact path="NuevoServicio" element={<NuevoServicio />} />
           <Route exact path="DespliegueCitas" element={<DespliegueCitas />} />
-          <Route exact path="DespliegueMedicamentos" element={<DespliegueMedicamentos />} />
-          {/* <Route element={<RequireAuth allowedRoles={[ROLES.Editor]} />}>
-            <Route path="editor" element={<Editor />} />
-          </Route>
-
-
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route path="admin" element={<Admin />} />
-          </Route>
-
-          <Route element={<RequireAuth allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-            <Route path="lounge" element={<Lounge />} />
-          </Route> */}
+          <Route exact path="DespliegueMedicamentos" element={<DespliegueMedicamentos />} /> */}
 
           {/* catch all */}
           <Route path="*" element={<Missing></Missing>} />
