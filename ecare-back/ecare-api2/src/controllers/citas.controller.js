@@ -21,3 +21,39 @@ export const desplegarCitas = async (req, res) => {
       res.send(error.message);
     }
   };
+
+
+  export const desplegarHistorialCitas = async (req, res) => {
+    try {
+      const { curp , fecha } = req.body;
+      let curpV = curp == '' ? null : curp;
+       console.log(req.body);
+      const pool = await getConnection();
+      const result = await pool
+        .request()
+        .input("curp", sql.VarChar, curpV)
+        .query(querys.desplegarHistorialCitas);
+        console.log(result)
+      res.json(result.recordset);
+    } catch (error) {
+      res.status(500);
+      res.send(error.message);
+    }
+  };
+
+  export const desplegarHistorialCitasDoctor = async (req, res) => {
+    try {
+      const { curp } = req.body;
+       console.log(req.body);
+      const pool = await getConnection();
+      const result = await pool
+        .request()
+        .input("curpDoctor", sql.VarChar, curp)
+        .query(querys.desplegarHistorialCitasDoctor);
+        console.log(result)
+      res.json(result.recordset);
+    } catch (error) {
+      res.status(500);
+      res.send(error.message);
+    }
+  };

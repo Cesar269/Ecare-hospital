@@ -31,10 +31,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const BotonAccion = ({ children, actualizarExistencia, nombreMedicamento, accion }) => {
+const BotonAccion = ({ children, EliminarUsuario, curpUsuario}) => {
 
     const handleClick = () => {
-        actualizarExistencia(accion, nombreMedicamento);
+        EliminarUsuario(curpUsuario);
     }
 
     return (
@@ -55,6 +55,7 @@ export default function AltasBajasInfo() {
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [especialidad, setEspecialidad] = useState('');
     const [ocupacion, setOcupacion] = useState('');
+    const [activeIndex, setActiveIndex] = useState(null)
 
     const [usuarios, setUsuarios] = useState([]);
 
@@ -97,11 +98,21 @@ export default function AltasBajasInfo() {
             method: "POST",
         }).then((response) => {
             console.log(response)
+            Swal.fire({
+                title: 'Se logró registrar al usuario de forma correcta',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+              })
             setIsLoading(false);
         })
             .catch((error) => {
                 console.log(error)
-                return "No se ha podido actualizar la informacion del usuario"
+                Swal.fire({
+                    title: 'Ocurrio un Error en la ejecución del registro',
+                    text: 'Al parecer alguno de los parametros del formulario es incorrecto y no cumple con el formato.',
+                    icon: 'error',
+                    confirmButtonText: 'Corregir'
+                  })
             })
             .finally(() => {
             }
@@ -130,19 +141,28 @@ export default function AltasBajasInfo() {
         );
     }
 
-    const actualizarExistencia = (accion, nombre_medicamento) => {
+    const EliminarUsuario = (curpUsuario) => {
         setIsLoading(true);
         axios
-            .post(`http://localhost:3001/medicamentos/actualizarExistencia`, { accion, nombre_medicamento })
+            .post(`http://localhost:3001/usuarios/eliminarUsuario`, { curpUsuario })
             .then((response) => {
                 setUsuarios(response.data)
                 setIsLoading(false);
-                console.log("actualizada");
+                Swal.fire({
+                    title: 'Se logró eliminar al usuario correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                  })
             })
             .catch((error) => {
                 setIsLoading(false);
                 console.log(error)
-                return "No se ha podido actualizar existencias"
+                Swal.fire({
+                    title: 'Ocurrio un Error en la ejecución de la tarea',
+                    text: 'Al parecer existe alguna restriccion al eliminar al usuario',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                  })
             })
             .finally(() => {
             }
@@ -165,6 +185,7 @@ export default function AltasBajasInfo() {
                 console.log(response.data)
                 setUsuarios(response.data)
                 setIsLoading(false);
+                setActiveIndex(1)
             })
             .catch((error) => {
                 setIsLoading(false);
@@ -182,14 +203,11 @@ export default function AltasBajasInfo() {
                 <Box
                     sx={{
                         marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
                     }}
                 >
 
-                    <Accordion>
-                        <AccordionTab header="Dar de alta un usuario">
+                    <Accordion activeIndex={activeIndex}>
+                        <AccordionTab header="Dar de alta un usuario" >
                             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                                 <PersonIcon />
                             </Avatar>
@@ -466,7 +484,7 @@ export default function AltasBajasInfo() {
                                     alignItems: 'center',
                                 }}>
                                 <Typography component="h1" variant="h4">
-                                    Lista de medicamentos
+                                    Lista de usuarios
                                 </Typography>
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -501,10 +519,8 @@ export default function AltasBajasInfo() {
                                                             alignItems: 'center',
                                                         }}>
                                                         <BotonAccion
-                                                            actualizarExistencia={actualizarExistencia}
-                                                            nombreMedicamento={row.curp}
-                                                            accion={1}
-
+                                                            EliminarUsuario={EliminarUsuario}
+                                                            curpUsuario={row.curp}
                                                         >
                                                             Eliminar
                                                         </BotonAccion>

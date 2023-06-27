@@ -71,3 +71,45 @@ export const actualizarExistencia = async (req, res) => {
     res.send(error.message);
   }
 };
+
+export const desplegarConsultorios= async (req, res) => {
+  try {
+    const { id_consultorio } = req.body;
+console.log(req.body)
+    const pool = await getConnection();
+    if(id_consultorio == ''){
+      const result = await pool
+      .request()
+      .query(querys.desplegarTodoConsultorios);
+    res.json(result.recordset);
+    }else{
+      const result = await pool
+      .request()
+      .input("id_consultorio", sql.Int, id_consultorio)
+      .query(querys.desplegarFiltroConsultorios);
+    res.json(result.recordset);
+    }
+    
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
+export const eliminarConsultorio = async (req, res) => {
+  try {
+    const { id_consultorio } = req.body;
+    const pool = await getConnection();
+    console.log(req.body);
+    const result1 = await pool
+      .request()
+      .input("idConsultorio", sql.Int, id_consultorio)
+      .execute("EliminarConsultorio");
+    console.log(result1)
+    const result = await pool.request().query(querys.desplegarTodoConsultorios);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};

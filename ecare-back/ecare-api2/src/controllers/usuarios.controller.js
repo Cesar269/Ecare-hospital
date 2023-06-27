@@ -159,13 +159,14 @@ export const handleLogin = async (req, res) => {
 export const desplegarUsuarios = async (req, res) => {
   try {
     const { nombre, ap_materno, ap_paterno,  curp } = req.body;
+    console.log(req.body)
     const pool = await getConnection();
     const result = await pool
       .request()
-      // .input("curp", sql.VarChar, curp)
-      // .input("nombre", sql.VarChar, nombre)
-      // .input("ap_paterno", sql.VarChar, ap_paterno)
-      // .input("ap_materno", sql.VarChar, ap_materno)
+      .input("curp", sql.VarChar, curp)
+      .input("nombre", sql.VarChar, nombre)
+      .input("ap_paterno", sql.VarChar, ap_paterno)
+      .input("ap_materno", sql.VarChar, ap_materno)
       .query(querys.obtenerDiferentesUsuarios);
     res.json(result.recordset);
   } catch (error) {

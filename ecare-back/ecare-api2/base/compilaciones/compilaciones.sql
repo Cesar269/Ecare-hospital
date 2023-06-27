@@ -22,83 +22,45 @@ GO
 -- DROP PROCEDURE insertar_usuario
 -- GO
 
--- CREATE PROCEDURE insertar_usuario
--- 	@curp VARCHAR(18),
--- 	@correo VARCHAR(40),
--- 	@password VARCHAR(15),
--- 	@nombre VARCHAR(20),
--- 	@ap_paterno VARCHAR(20),
--- 	@ap_materno VARCHAR(20),
--- 	@celular VARCHAR(10),
--- 	@edad INT,
--- 	@id_sexo INT,
--- 	@id_ocupacion INT,
--- 	@id_tipo_usuario INT,
--- 	@id_especialidad INT
--- AS
--- 	IF @curp IS NULL OR @correo IS NULL OR @password IS NULL OR @nombre IS NULL OR @ap_paterno IS NULL OR @ap_materno IS NULL OR @celular IS NULL OR @edad IS NULL OR @id_sexo IS NULL OR @id_ocupacion IS NULL OR  @id_tipo_usuario IS NULL
--- 	BEGIN
--- 		PRINT 'Hay datos nulos'
--- 	END
--- 	ELSE
--- 	BEGIN
--- 		IF @curp='' OR @correo='' OR @password='' OR @nombre='' OR @ap_paterno='' OR @ap_materno='' OR @celular=''
--- 		BEGIN
--- 			PRINT 'Hay campos vac�os'
--- 		END
--- 		ELSE
--- 		BEGIN
--- 			IF DATALENGTH(@curp) != 18
--- 			BEGIN
--- 				PRINT 'Curp inv�lida, debe ser de 18 caracteres'
--- 			END
--- 			ELSE
--- 			BEGIN
--- 				IF @id_sexo > 2 OR @id_sexo < 0
--- 				BEGIN
--- 					PRINT 'Sexo no v�lido'
--- 				END
--- 				ELSE
--- 				BEGIN
--- 					IF @id_ocupacion > 12 OR @id_ocupacion < 1
--- 					BEGIN
--- 						PRINT 'Ocupaci�n no v�lida'
--- 					END
--- 					ELSE
--- 					BEGIN
--- 						IF @edad < 0 OR @edad > 122
--- 						BEGIN
--- 							PRINT 'Edad inv�lida'
--- 						END
--- 						ELSE
--- 						BEGIN
--- 							IF (@id_tipo_usuario = 2 AND @id_ocupacion != 1) OR (@id_tipo_usuario = 3 AND @id_ocupacion != 12)
--- 							BEGIN
--- 								PRINT 'La ocupaci�n no coincide con el tipo de usuario'
--- 							END
--- 							ELSE
--- 							BEGIN
--- 								IF @id_tipo_usuario = 2 AND (@id_especialidad < 1 OR @id_especialidad > 20)
--- 								BEGIN
--- 									PRINT 'Especialidad inv�lida'
--- 								END
--- 								ELSE
--- 								BEGIN
--- 									IF DATALENGTH(@celular) != 10
--- 									BEGIN
--- 										PRINT 'Celular no es de 10 d�gitos'
--- 									END
--- 									ELSE
--- 									BEGIN
--- 										PRINT 'Datos v�lidos'
--- 									END
--- 								END
--- 							END
--- 						END
--- 					END
--- 				END
--- 			END
--- 		END	
--- 	END
-SELECT * FROM Cita;
+-- SELECT * FROM dbo.ObtenerCitasDoctor('Luis Gonzalez Espinoza','NMEG920720ARVSCQ53');
+
+SELECT * FROM Cita_Usuario Where id_cita = 1
+GO
+
+
+
+-- SELECT Ciu.curp
+-- FROM Cita_Usuario Ciu
+-- INNER JOIN (SELECT U.curp,C.id_cita, C.notas, C.fecha, TS.tipo_servicio, TS.costo
+--     FROM Cita_Usuario CU
+--     INNER JOIN Cita C ON CU.id_cita = C.id_cita
+--     INNER JOIN Tipo_Servicio TS ON C.id_tipo_servicio = TS.id_tipo_servicio
+--     INNER JOIN Consultorio CO ON TS.id_consultorio = CO.id_consultorio
+--     INNER JOIN Usuario U ON CU.curp = U.curp
+--     WHERE U.curp like 'TSNO910309RJYXZV84') AS t2 ON Ciu.id_cita = t2.id_cita
+-- GROUP BY Ciu.curp
+-- HAVING COUNT(Ciu.curp) = 1;
+CREATE PROCEDURE MostrarCitasDoctorHoy
+    @curpDoctor VARCHAR(18)
+AS
+BEGIN
+    SELECT Cita.id_cita, Cita.notas, Cita.fecha, Tipo_Servicio.tipo_servicio
+    FROM Cita
+    INNER JOIN Tipo_Servicio ON Cita.id_tipo_servicio = Tipo_Servicio.id_tipo_servicio
+    INNER JOIN Consultorio ON Tipo_Servicio.id_consultorio = Consultorio.id_consultorio
+    INNER JOIN Usuario ON Consultorio.curp_doctor = Usuario.curp
+    WHERE Usuario.curp = @curpDoctor
+        AND Cita.fecha = CAST(GETDATE() AS DATE);
+END;
+
+
+
+    -- SELECT U.curp,C.id_cita, C.notas, C.fecha, TS.tipo_servicio, TS.costo
+    -- FROM Cita_Usuario CU
+    -- INNER JOIN Cita C ON CU.id_cita = C.id_cita
+    -- INNER JOIN Tipo_Servicio TS ON C.id_tipo_servicio = TS.id_tipo_servicio
+    -- INNER JOIN Consultorio CO ON TS.id_consultorio = CO.id_consultorio
+    -- INNER JOIN Usuario U ON CU.curp = U.curp
+    -- WHERE U.curp like 'TSNO910309RJYXZV84'
+
 GO
