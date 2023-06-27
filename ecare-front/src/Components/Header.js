@@ -181,7 +181,7 @@ function Header({ children }) {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Opciones de usuario">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={localStorage.getItem('nombre')} src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="" src="/static/images/avatar/2.jpg" />
                                 </IconButton>
                             </Tooltip>
                             <Menu

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -24,8 +25,9 @@ export default function DatosUsuario() {
     const [usuarioEdit, setUsuarioEdit] = useState({});
 
     useEffect(() => {
+        const curpUsuario = localStorage.getItem("curp");
         axios
-            .post(`http://localhost:3001/usuarios/obtenerUsuarioCurp`, { curp: "CADK890523MDFNNK04" })
+            .post(`http://localhost:3001/usuarios/obtenerUsuarioCurp`, { curp: curpUsuario })
             .then((response) => {
                 setUsuario(response.data.recordset[0])
                 setUsuarioEdit(response.data.recordset[0])
@@ -33,7 +35,12 @@ export default function DatosUsuario() {
             })
             .catch((error) => {
                 console.log(error)
-                return "No se ha podido obtener la información del usuario destino"
+                Swal.fire({
+                    title: 'Ocurrio un Error en la ejecución',
+                    text: 'Al parecer alguno de los parametros del formulario es incorrecto y no cumple con el formato.',
+                    icon: 'error',
+                    confirmButtonText: 'Corregir'
+                })
             })
             .finally(() => {
             }
@@ -62,10 +69,20 @@ export default function DatosUsuario() {
         }).then((response) => {
             console.log(response.data)
             setIsLoading(false);
+            Swal.fire({
+                title: 'Se logró actualzar los datos forma correcta',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+              })
         })
             .catch((error) => {
                 console.log(error)
-                return "No se ha podido actualizar la informacion del usuario"
+                Swal.fire({
+                    title: 'Ocurrio un Error en la ejecución',
+                    text: 'Al parecer alguno de los parametros del formulario es incorrecto y no cumple con el formato.',
+                    icon: 'error',
+                    confirmButtonText: 'Corregir'
+                  })
             })
             .finally(() => {
             }

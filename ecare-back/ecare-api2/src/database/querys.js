@@ -15,5 +15,6 @@ export const querys = {
   desplegarMedicamentos : "SELECT * FROM dbo.ObtenerMedicamentosRecetados(@curp,@nombre, @ap_paterno, @ap_materno);",
   desplegarCitas : "SELECT * FROM dbo.ObtenerCitas(@curp, @fecha);",
   login: "SELECT * FROM Usuario WHERE curp = @curp and password = @password",
+  obtenerDiferentesUsuarios: "SELECT * FROM Usuario WHERE curp like '%%'"
 };
 
