@@ -25,7 +25,6 @@ export const desplegarCitas = async (req, res) => {
 export const programarCita = async (req, res) => {
   try {
     const { curp, fecha, id_tipo_servicio } = req.body
-    console.log(curp,",", fecha, "," , id_tipo_servicio)
     let curpV = curp == '' ? null : curp;
     let fechaV = fecha == '' ? null : fecha;
     let tipoServicioV = id_tipo_servicio == null ? null : id_tipo_servicio;
@@ -33,7 +32,7 @@ export const programarCita = async (req, res) => {
     const result = await pool
       .request()
       .input("curp", sql.VarChar, curpV)
-      .input("fecha", sql.Date, fechaV)
+      .input("fecha", sql.DateTime, fechaV)
       .input("id_tipo_servicio", sql.Int, tipoServicioV)
       .execute("programar_cita");
     res.json(result);

@@ -45,8 +45,8 @@ export default function ServiciosGeneral() {
         const date_split = formattedDate.split("/")
         const date = `${date_split[2]}/${date_split[1]}/${date_split[0]}`
         console.log(date)
-        //setSelectedDate(formattedDate);
         setSelectedDate(date);
+        //setSelectedDate(formattedDate);
     }
 
     const handleSelectedTime = (value) => {
