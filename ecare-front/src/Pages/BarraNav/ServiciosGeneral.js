@@ -79,7 +79,16 @@ export default function ServiciosGeneral() {
             <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
                     <InputLabel id="select-label">Selecciona una servicio</InputLabel>
-                    <Select labelId='select-label' id="select" value={selectedService} onChange={handleSelectedService} label="Selecciona un servicio">
+                    <Select
+                        labelId='select-label'
+                        id="select"
+                        value={selectedService}
+                        onChange={handleSelectedService}
+                        label="Selecciona un servicio"
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
                         {services.map((service, index) => {
                             return <MenuItem key={index} value={service.id}>{service.tipo_servicio}</MenuItem>
                         })}

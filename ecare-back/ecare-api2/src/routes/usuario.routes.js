@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   actualizarUsuario,
+  desplegarUsuarios,
   handleLogin,
   login,
   obtenerCaracteristicas,
@@ -18,6 +19,8 @@ router.post("/actualizarUsuario", actualizarUsuario);
 
 router.get("/obtenerCaracteristicas", obtenerCaracteristicas);
 router.post("/registrarUsuario", registrarUsuario);
+
+router.post("/desplegarUsuarios", desplegarUsuarios);
 
 router.post('/login',handleLogin);
 

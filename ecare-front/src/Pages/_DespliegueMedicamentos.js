@@ -23,7 +23,7 @@ export default function DespliegueMedicamentos() {
     const [isLoading, setIsLoading] = useState(false);
     const [medicamentos, setMedicamentos] = useState([]);
 
-
+    
     const desplegarMedicamentos = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

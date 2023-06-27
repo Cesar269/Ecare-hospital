@@ -150,47 +150,26 @@ export const handleLogin = async (req, res) => {
     .input("password", sql.VarChar, password)
     .query(querys.login);
   if (!result.recordset) return res.sendStatus(401);
-  // if (result.recordset) {
-  //   // create JWTs
-  //   const accessToken = jwt.sign(
-  //     { "curp": result.recordset[0].curp },
-  //     process.env.ACCESS_TOKEN_SECRET,
-  //     { expiresIn: '30s' }
-  //   );
-  //   const refreshToken = jwt.sign(
-  //     { "curp": result.recordset[0].curp },
-  //     process.env.REFRESH_TOKEN_SECRET,
-  //     { expiresIn: '1d' }
-  //   );
-  // }
+
   res.json(result.recordset[0]);
-  // const foundUser = usersDB.users.find(person => person.username === curp);
-  // if (!foundUser) return res.sendStatus(401); //Unauthorized 
-  // // evaluate password 
-  // const match = await bcrypt.compare(pwd, foundUser.password);
-  // if (match) {
-  //     // create JWTs
-  //     const accessToken = jwt.sign(
-  //         { "username": foundUser.username },
-  //         process.env.ACCESS_TOKEN_SECRET,
-  //         { expiresIn: '30s' }
-  //     );
-  //     const refreshToken = jwt.sign(
-  //         { "username": foundUser.username },
-  //         process.env.REFRESH_TOKEN_SECRET,
-  //         { expiresIn: '1d' }
-  //     );
-  //     // Saving refreshToken with current user
-  //     const otherUsers = usersDB.users.filter(person => person.username !== foundUser.username);
-  //     const currentUser = { ...foundUser, refreshToken };
-  //     usersDB.setUsers([...otherUsers, currentUser]);
-  //     await fsPromises.writeFile(
-  //         path.join(__dirname, '..', 'model', 'users.json'),
-  //         JSON.stringify(usersDB.users)
-  //     );
-  //     res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-  //     res.json({ accessToken });
-  // } else {
-  //     res.sendStatus(401);
-  // }
+ 
 }
+
+
+export const desplegarUsuarios = async (req, res) => {
+  try {
+    const { nombre, ap_materno, ap_paterno,  curp } = req.body;
+    const pool = await getConnection();
+    const result = await pool
+      .request()
+      // .input("curp", sql.VarChar, curp)
+      // .input("nombre", sql.VarChar, nombre)
+      // .input("ap_paterno", sql.VarChar, ap_paterno)
+      // .input("ap_materno", sql.VarChar, ap_materno)
+      .query(querys.obtenerDiferentesUsuarios);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
