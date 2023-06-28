@@ -75,8 +75,8 @@ export default function CitasAdmin() {
     const handleClose = () => setOpen(false);
     ///
 
-
     const desplegarCitas = (event) => {
+
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setIsLoading(true);
@@ -107,7 +107,7 @@ export default function CitasAdmin() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/citas/desplegarHistorialCitasDoctor`, {
+            .post(`http://localhost:3001/citas/obtenerCitasDoctor`, {
                 curp: data.get('curp'),
                 nombreCompleto: data.get('curp')
             })
@@ -201,7 +201,7 @@ export default function CitasAdmin() {
                                     alignItems: 'center',
                                 }}>
                                 <Typography component="h1" variant="h4">
-                                    Lista de medicamentos
+                                    Lista de citas
                                 </Typography>
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -214,6 +214,7 @@ export default function CitasAdmin() {
                                                 <TableCell align="left">Acciones</TableCell>
                                             </TableRow>
                                         </TableHead>
+
                                         <TableBody>
                                             {citas.map((row) => (
                                                 <TableRow
@@ -221,11 +222,9 @@ export default function CitasAdmin() {
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="left">{row.id_cita}</TableCell>
-                                                    <TableCell align="left">{new Date(row.fecha).getFullYear() + " - " + 
-                                                    new Date(row.fecha).getMonth() + " - " +new Date(row.fecha).getDay() + " : Hora  " 
-                                                    + new Date(row.fecha).getHours() + ":" + new Date(row.fecha).getMinutes()}</TableCell>
-                                                    <TableCell align="left">{row.id_consultorio ? row.id_consultorio : "No asignado"}</TableCell>
-                                                    <TableCell align="left">{row.tipo_servicio}</TableCell>
+                                                    <TableCell align="left">{row.fecha}</TableCell>
+                                                    <TableCell align="left">{row.consultorio ? row.consultorio : "No asignado"}</TableCell>
+                                                    <TableCell align="left">{row.servicio}</TableCell>
                                                     <TableCell align="left"
                                                         sx={{
                                                             display: 'flex',
@@ -313,7 +312,7 @@ export default function CitasAdmin() {
                                     alignItems: 'center',
                                 }}>
                                 <Typography component="h1" variant="h4">
-                                    Lista de medicamentos
+                                    Lista de citas
                                 </Typography>
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -321,6 +320,7 @@ export default function CitasAdmin() {
                                             <TableRow>
                                                 <TableCell align="left">Id de cita</TableCell>
                                                 <TableCell align="left">Fecha de cita</TableCell>
+                                                <TableCell align="left">Hora</TableCell>
                                                 <TableCell align="left">Id del consultorio</TableCell>
                                                 <TableCell align="left">Tipo de servicio</TableCell>
                                                 <TableCell align="left">Acciones</TableCell>
@@ -333,11 +333,10 @@ export default function CitasAdmin() {
                                                     key={row.id_cita}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell align="left">{row.id_cita}</TableCell>
-                                                    <TableCell align="left">{new Date(row.fecha).getFullYear() + " - " + 
-                                                    new Date(row.fecha).getMonth() + " - " +new Date(row.fecha).getDay() + " : Hora  " 
-                                                    + new Date(row.fecha).getHours() + ":" + new Date(row.fecha).getMinutes()}</TableCell>
-                                                    <TableCell align="left">{row.curp}</TableCell>
+                                                    <TableCell align="left">{row.id_cita[0]}</TableCell>
+                                                    <TableCell align="left">{row.fecha}</TableCell>
+                                                    <TableCell align="left">{row.hora}</TableCell>
+                                                    <TableCell align="left">{row.id_consultorio[0]}</TableCell>
                                                     <TableCell align="left">{row.tipo_servicio}</TableCell>
                                                     <TableCell align="left"
                                                         sx={{

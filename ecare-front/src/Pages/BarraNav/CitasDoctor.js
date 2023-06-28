@@ -80,8 +80,9 @@ export default function CitasDoctor() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/citas/desplegarHistorialCitas`, {
-                curp: data.get('curp')
+            .post(`http://localhost:3001/citas/desplegarHistorialCitasPorDoctor`, {
+                curpPaciente: data.get('curp'),
+                curpDoctor: localStorage.getItem("curp")
             })
             .then((response) => {
                 console.log(response.data)
@@ -119,7 +120,7 @@ export default function CitasDoctor() {
                 >
 
                     <Accordion activeIndex={activeIndex}>
-                        <AccordionTab header="Historial de citas del paciente">
+                        <AccordionTab header="Historial de citas tus pacientes">
                             <Container>
                                 <Box
                                     sx={{
@@ -131,10 +132,10 @@ export default function CitasDoctor() {
                                 >
 
                                     <Typography component="h1" variant="h4">
-                                        Historial de citas del paciente
+                                        Historial de citas tus pacientes
                                     </Typography>
 
-                                    <Box component="form" validate="true" onSubmit={desplegarCitas} sx={{ mt: 3 }}>
+                                    <Box component="form" noValidate onSubmit={desplegarCitas} sx={{ mt: 3 }}>
                                         <Grid container spacing={2}>
                                             <Grid item xs={12} sm={12}>
                                                 <TextField
@@ -229,9 +230,7 @@ export default function CitasDoctor() {
                             </Modal>
                         </AccordionTab>
 
-                        <AccordionTab header="Visualizar las citas de hoy">
-
-                        </AccordionTab> 
+                       
 
 
                     </Accordion>

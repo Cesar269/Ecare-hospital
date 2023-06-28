@@ -31,10 +31,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const BotonAccion = ({ children, EliminarUsuario, curpUsuario }) => {
+const BotonAccion = ({ children, EliminarUsuario, curpUsuario, tipoUsuario }) => {
 
     const handleClick = () => {
-        EliminarUsuario(curpUsuario);
+
+        EliminarUsuario(curpUsuario, tipoUsuario);
     }
 
     return (
@@ -57,6 +58,8 @@ export default function AltasBajasInfo() {
     const [ocupacion, setOcupacion] = useState('');
     const [activeIndex, setActiveIndex] = useState(null)
     const [tipoPersona, setTipoPersona] = useState(0);
+
+    const [historial, setHistorial] = useState(0);
 
     const [usuarios, setUsuarios] = useState([]);
 
@@ -143,32 +146,71 @@ export default function AltasBajasInfo() {
         );
     }
 
-    const EliminarUsuario = (curpUsuario) => {
+    const desplegarHistorial = (curp) => {
         setIsLoading(true);
+
         axios
-            .post(`http://localhost:3001/usuarios/eliminarUsuario`, { curpUsuario })
+            .post(`http://localhost:3001/citas/obtenerCitasDoctor`, {
+                curp: curp,
+            })
             .then((response) => {
-                setUsuarios([])
+                console.log(response.data)
+                setHistorial(response.data.lenght)
+                console.log(historial)
                 setIsLoading(false);
-                Swal.fire({
-                    title: 'Se logró eliminar al usuario correctamente',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar'
-                })
+                setActiveIndex(1)
             })
             .catch((error) => {
                 setIsLoading(false);
                 console.log(error)
                 Swal.fire({
-                    title: 'Ocurrio un Error en la ejecución de la tarea',
-                    text: 'Al parecer existe alguna restriccion al eliminar al usuario',
+                    title: 'Ocurrio un Error en la ejecución',
+                    text: 'Al parecer alguno de los parametros del formulario es incorrecto y no cumple con el formato.',
                     icon: 'error',
-                    confirmButtonText: 'Aceptar'
+                    confirmButtonText: 'Corregir'
                 })
             })
             .finally(() => {
             }
             );
+    }
+
+    const EliminarUsuario = (curpUsuario, tipoUsuario) => {
+        let isExec = 0;
+        if (tipoUsuario === 2) {
+            desplegarHistorial(curpUsuario);
+            historial === 0 ? isExec = 1 : isExec = 0
+        }
+        setIsLoading(true);
+        if (isExec === 1) {
+            axios
+                .post(`http://localhost:3001/usuarios/eliminarUsuario`, { curpUsuario })
+                .then((response) => {
+                    setUsuarios([])
+                    setIsLoading(false);
+                    Swal.fire({
+                        title: 'Se logró eliminar al usuario correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    })
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    console.log(error)
+                    Swal.fire({
+                        title: 'Ocurrio un Error en la ejecución de la tarea',
+                        text: 'Al parecer existe alguna restriccion al eliminar al usuario',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    })
+                })
+                .finally(() => {
+                }
+                );
+        } else {
+            alert("El usuario que intentas eliminar tiene citas pendientes")
+        }
+
     }
 
     const desplegarUsuarios = (event) => {
@@ -525,6 +567,7 @@ export default function AltasBajasInfo() {
                                                             <BotonAccion
                                                                 EliminarUsuario={EliminarUsuario}
                                                                 curpUsuario={row.curp}
+                                                                tipoUsuario={row.id_tipo_usuario}
                                                             >
                                                                 Eliminar
                                                             </BotonAccion>
@@ -551,6 +594,7 @@ export default function AltasBajasInfo() {
                                                             <BotonAccion
                                                                 EliminarUsuario={EliminarUsuario}
                                                                 curpUsuario={row.curp}
+                                                                tipoUsuario={row.id_tipo_usuario}
                                                             >
                                                                 Eliminar
                                                             </BotonAccion>

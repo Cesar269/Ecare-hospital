@@ -31,11 +31,18 @@ GO
 -- JOIN sys.types t ON c.system_type_id = t.system_type_id
 -- WHERE c.object_id = OBJECT_ID('Cita');
 -- UPDATE Usuario SET estatus = 1 WHERE curp ='GOLM910523MDFNNM10'
--- SELECT * FROM dbo.horas_ocupadas_de_consultorio(1, '2023/06/29');
-SELECT * FROM dbo.horas_ocupadas_de_consultorio(1, '2023/06/29');
--- -- SELECT estatus FROM Usuario WHERE curp = 'GOLM910523MDFNNM10'
+SELECT C.*, Ci.*, Ci.estatus AS 'estadoCita',TS.tipo_servicio ,CU.curp AS 'curpPaciente'
+FROM Consultorio C, Cita Ci,Cita_Tipo_servicio CT, Tipo_servicio TS , Cita_Usuario CU
+WHERE Ci.id_cita = CT.id_cita AND
+CT.id_tipo_servicio = TS.id_tipo_servicio AND
+TS.id_consultorio = C.id_consultorio AND
+CU.id_cita = Ci.id_cita
 
--- UPDATE Usuario SET estatus = 1 WHERE curp = 'GOLM910523MDFNNM10'
+
+-- SELECT * FROM dbo.horas_ocupadas_de_consultorio(1, '2023/06/29');
+-- -- SELECT estatus FROM Usuario WHERE curp = 'GOLM910523MDFNNM10'
+GO
+-- UPDATE Cita_Tipo_servicio SET id_tipo_servicio = 3 WHERE id_cita = 77
 
 -- SELECT Ciu.curp
 -- FROM Cita_Usuario Ciu

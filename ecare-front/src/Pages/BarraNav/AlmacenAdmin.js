@@ -325,9 +325,7 @@ export default function CitasDoctor() {
 
                         </AccordionTab>
 
-                        <AccordionTab header="Compra de medicamentos">
-
-                        </AccordionTab>
+                       
 
 
                     </Accordion>

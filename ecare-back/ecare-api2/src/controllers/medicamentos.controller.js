@@ -16,7 +16,7 @@ export const obtenerMedicamentos = async (req, res) => {
 
 export const ingresarMedicamento = async (req, res) => {
   try {
-    const { nombre_medicamento, existencia, descripcion, es_patente, presentacion} = req.body;
+    const { nombre_medicamento, existencia, descripcion, es_patente, presentacion } = req.body;
     const pool = await getConnection();
     const result1 = await pool
       .request()
@@ -26,7 +26,7 @@ export const ingresarMedicamento = async (req, res) => {
       .input("es_patente", sql.Int, es_patente)
       .input("id_presentacion", sql.VarChar, presentacion)
       .query(querys.ingresarMedicamento);
-      const result = await pool.request().query(querys.obtenerMedicamentos);
+    const result = await pool.request().query(querys.obtenerMedicamentos);
     res.json(result.recordset);
   } catch (error) {
     res.status(500);
@@ -36,7 +36,7 @@ export const ingresarMedicamento = async (req, res) => {
 
 export const desplegarMedicamentos = async (req, res) => {
   try {
-    const { nombre, ap_materno, ap_paterno,  curp } = req.body;
+    const { nombre, ap_materno, ap_paterno, curp } = req.body;
     const pool = await getConnection();
     const result = await pool
       .request()
@@ -72,24 +72,24 @@ export const actualizarExistencia = async (req, res) => {
   }
 };
 
-export const desplegarConsultorios= async (req, res) => {
+export const desplegarConsultorios = async (req, res) => {
   try {
     const { id_consultorio } = req.body;
-console.log(req.body)
+    console.log(req.body)
     const pool = await getConnection();
-    if(id_consultorio == ''){
+    if (id_consultorio == '') {
       const result = await pool
-      .request()
-      .query(querys.desplegarTodoConsultorios);
-    res.json(result.recordset);
-    }else{
+        .request()
+        .query(querys.desplegarTodoConsultorios);
+      res.json(result.recordset);
+    } else {
       const result = await pool
-      .request()
-      .input("id_consultorio", sql.Int, id_consultorio)
-      .query(querys.desplegarFiltroConsultorios);
-    res.json(result.recordset);
+        .request()
+        .input("id_consultorio", sql.Int, id_consultorio)
+        .query(querys.desplegarFiltroConsultorios);
+      res.json(result.recordset);
     }
-    
+
   } catch (error) {
     res.status(500);
     res.send(error.message);
@@ -100,14 +100,28 @@ export const eliminarConsultorio = async (req, res) => {
   try {
     const { id_consultorio } = req.body;
     const pool = await getConnection();
-    console.log(req.body);
-    const result1 = await pool
-      .request()
-      .input("idConsultorio", sql.Int, id_consultorio)
-      .execute("EliminarConsultorio");
-    console.log(result1)
-    const result = await pool.request().query(querys.desplegarTodoConsultorios);
-    res.json(result.recordset);
+    
+    const result = await pool
+    .request()
+    .input("id_consultorio", sql.Int, id_consultorio)
+    .query(querys.obtenerCitasPorConsultorio);
+    
+    
+    const citas = result.recordset.length
+
+    if (citas === 0) {
+      console.log('eliminar')
+      const result1 = await pool
+        .request()
+        .input("id_consultorio", sql.Int, id_consultorio)
+        .query(querys.cancelarConsultorio);
+      const result2 = await pool.request().query(querys.desplegarTodoConsultorios);
+      res.json(result2.recordset);
+    }
+    else {
+      res.status(500)
+      res.send("no puedes eliminar a este consultorio");
+    }
   } catch (error) {
     res.status(500);
     res.send(error.message);

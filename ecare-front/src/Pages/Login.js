@@ -118,13 +118,7 @@ export default function Login() {
                     >
                         INICIAR
                     </Button>
-                    <Grid container>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                {"¿No tienes cuenta? Crea una."}
-                            </Link>
-                        </Grid>
-                    </Grid>
+                   
                 </Box>
             </Box>
         </Container>

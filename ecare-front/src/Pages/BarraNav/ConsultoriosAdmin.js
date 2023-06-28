@@ -103,7 +103,7 @@ export default function ConsultoriosAdmin() {
                 if(tamanoconsultorios === response.data.length){
                     Swal.fire({
                         title: 'Ocurrio un Error en la ejecución de la tarea',
-                        text: 'Al parecer existe alguna restriccion al eliminar el consultorio',
+                        text: 'Al parecer existe alguna restriccion al eliminar el consultorio como el tener citas registradas',
                         icon: 'error',
                         confirmButtonText: 'Aceptar'
                       })

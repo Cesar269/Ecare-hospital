@@ -69,7 +69,7 @@ export default function PacientesAdmin() {
             }
             );
     }, []);
-    
+
 
     const ingresarNuevoServicioUsuario = (event) => {
         event.preventDefault();
@@ -77,11 +77,11 @@ export default function PacientesAdmin() {
         setIsLoading(true);
 
         axios
-            .post(`http://localhost:3001/servicios/ingresarServicioUsuario`, { 
-                curp : data.get("curp"),
-                nombre_servicio : data.get("nombre_servicio"),
-                costo : data.get("costo")
-             })
+            .post(`http://localhost:3001/servicios/ingresarServicioUsuario`, {
+                curp: data.get("curp"),
+                nombre_servicio: data.get("nombre_servicio"),
+                costo: data.get("costo")
+            })
             .then((response) => {
                 setServicios(response.data)
                 setIsLoading(false);
@@ -149,7 +149,7 @@ export default function PacientesAdmin() {
                                                     autoFocus
                                                 />
                                             </Grid>
-                                           
+
                                             <Grid item xs={12} sm={6}>
                                                 <TextField
                                                     required
@@ -159,7 +159,7 @@ export default function PacientesAdmin() {
                                                     name="costo"
                                                     type="number"
                                                 />
-                                            </Grid>                                        
+                                            </Grid>
 
                                         </Grid>
                                         <Button
@@ -168,55 +168,53 @@ export default function PacientesAdmin() {
                                             variant="contained"
                                             sx={{ mt: 3, mb: 2 }}
                                         >
-                                           Adjuntar servicio a usuario
+                                            Adjuntar servicio a usuario
                                         </Button>
 
                                     </Box>
                                 </Box>
                             </Container>
                             <Container
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}>
-                <Typography component="h1" variant="h5">
-                    Lista de servicios
-                </Typography>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Id</TableCell>
-                                <TableCell align="left">Tipo Servicio</TableCell>
-                                <TableCell align="left">Costo</TableCell>
-                            </TableRow>
+                                sx={{
+                                    marginTop: 8,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}>
+                                <Typography component="h1" variant="h5">
+                                    Lista de servicios
+                                </Typography>
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Id</TableCell>
+                                                <TableCell align="left">Tipo Servicio</TableCell>
+                                                <TableCell align="left">Costo</TableCell>
+                                            </TableRow>
 
-                        </TableHead>
-                        <TableBody>
-                            {servicios.map((row) => (
-                                <TableRow
-                                    key={row.id_tipo_servicio}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        {row.id_tipo_servicio}
-                                    </TableCell>
-                                    <TableCell align="left">{row.tipo_servicio}</TableCell>
-                                    <TableCell align="left"> $ {row.costo}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
-
-                        </AccordionTab>
-
-                        <AccordionTab header="Emitir el total a pagar">
+                                        </TableHead>
+                                        <TableBody>
+                                            {servicios.map((row) => (
+                                                <TableRow
+                                                    key={row.id_tipo_servicio}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell component="th" scope="row">
+                                                        {row.id_tipo_servicio}
+                                                    </TableCell>
+                                                    <TableCell align="left">{row.tipo_servicio}</TableCell>
+                                                    <TableCell align="left"> $ {row.costo}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Container>
 
                         </AccordionTab>
+
+
 
 
                     </Accordion>
