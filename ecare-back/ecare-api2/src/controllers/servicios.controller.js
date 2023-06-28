@@ -77,3 +77,20 @@ export const obtenerCupoConsultorios = async (req, res) => {
         res.send(error.message);
     }
 };
+
+export const obtenerPreciosServicios = async (req, res) => {
+    try {
+        const { curp, id_cita } = req.body;
+        const pool = await getConnection();
+        const result1 = await pool
+            .request()
+            .input("curp", sql.VarChar, curp)
+            .input("id_cita", sql.Int, id_cita)
+            .query(querys.obtenerPreciosServicios);
+        console.log(result1)
+        res.json(result1.recordset);
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};

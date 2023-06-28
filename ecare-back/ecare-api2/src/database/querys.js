@@ -33,8 +33,9 @@ export const querys = {
   cancelarConsultorio  : "UPDATE Consultorio SET estatus = 0 WHERE id_consultorio = @id_consultorio;",
   desplegarHistorialCitasPorDoctor: "SELECT C.*, Ci.*, Ci.estatus AS 'estadoCita',TS.tipo_servicio  FROM Consultorio C, Cita Ci,Cita_Tipo_servicio CT, Tipo_servicio TS WHERE Ci.id_cita = CT.id_cita AND CT.id_tipo_servicio = TS.id_tipo_servicio AND TS.id_consultorio = C.id_consultorio AND C.curp_doctor = @curpDoctor",
   desplegarHistorialCitasPorDoctorPaciente: "SELECT C.*, Ci.*, Ci.estatus AS 'estadoCita',TS.tipo_servicio ,CU.curp AS 'curpPaciente' FROM Consultorio C, Cita Ci,Cita_Tipo_servicio CT, Tipo_servicio TS , Cita_Usuario CU WHERE Ci.id_cita = CT.id_cita AND CT.id_tipo_servicio = TS.id_tipo_servicio AND TS.id_consultorio = C.id_consultorio AND CU.id_cita = Ci.id_cita AND C.curp_doctor = @curpDoctor AND CU.curp = @curpPaciente",
-
-
-
+  obtenerRecetas : "SELECT * FROM dbo.obtener_recetas(@curp);",
+  obtenerPreciosServicios : "SELECT * FROM dbo.obtener_precios_servicios(@curp, @id_cita);",
+  obtenerPreciosMedicamentos : "SELECT * FROM dbo.obtener_precios_medicamentos(@curp, @id_cita);",
+  obtenerCitasDoctor: "SELECT * FROM dbo.obtener_citas_doctor(@curp);"
 };
 

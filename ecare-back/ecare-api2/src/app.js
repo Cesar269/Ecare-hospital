@@ -4,6 +4,7 @@ import usuarioRoutes from "./routes/usuario.routes.js"
 import medicamentosRoutes from "./routes/medicamentos.routes.js"
 import serviciosRoutes from "./routes/servicios.routes.js"
 import citasRoutes from "./routes/citas.routes.js"
+import recetasRoutes from "./routes/recetas.routes.js"
 // import morgan from "morgan";
 
 import config from "./config.js";
@@ -24,5 +25,6 @@ app.use("/usuarios", usuarioRoutes);
 app.use("/medicamentos",medicamentosRoutes);
 app.use("/servicios", serviciosRoutes);
 app.use("/citas", citasRoutes);
+app.use("/recetas", recetasRoutes);
 
 export default app;

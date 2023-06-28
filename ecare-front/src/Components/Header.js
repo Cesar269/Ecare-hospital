@@ -43,7 +43,7 @@ function Header({ children }) {
         }
         if (tipoUsuario === 2) {
             //paginas para el doctor
-            setPages(['Citas', 'Recetas', 'Pacientes', 'Servicios'])
+            setPages(['Citas', 'Generar receta', 'Pacientes', 'Servicios'])
             setLinksPages(['/CitasDoctor', '/RecetasDoctor', '/PacientesDoctor', '/ServiciosGeneral'])
             //configuraciones para el doctor
             setSettings(['Actualizar y ver datos','Altas y bajas', 'Cerrar sesión'])
