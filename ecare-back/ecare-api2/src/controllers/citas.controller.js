@@ -77,3 +77,20 @@ export const programarCita = async (req, res) => {
     res.send(error.message);
   }
 }
+
+export const obtenerCitasDoctor = async (req, res) => {
+  try {
+    const { curp } = req.body;
+    console.log(req.body);
+    const pool = await getConnection();
+    const result = await pool
+      .request()
+      .input("curp", sql.VarChar, curp)
+      .query(querys.obtenerCitasDoctor);
+    console.log(result)
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};

@@ -113,3 +113,20 @@ export const eliminarConsultorio = async (req, res) => {
     res.send(error.message);
   }
 };
+
+export const obtenerPreciosMedicamentos = async (req, res) => {
+  try {
+      const { curp, id_cita } = req.body;
+      const pool = await getConnection();
+      const result1 = await pool
+          .request()
+          .input("curp", sql.VarChar, curp)
+          .input("id_cita", sql.Int, id_cita)
+          .query(querys.obtenerPreciosMedicamentos);
+      console.log(result1)
+      res.json(result1.recordset);
+  } catch (error) {
+      res.status(500);
+      res.send(error.message);
+  }
+};

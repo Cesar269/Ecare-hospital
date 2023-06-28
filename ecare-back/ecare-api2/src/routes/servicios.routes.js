@@ -5,6 +5,7 @@ import {
   obtenerConsultorios,
   obtenerCupoConsultorios,
   obtenerServicios,
+  obtenerPreciosServicios,
 } from "../controllers/servicios.controller.js";
 
 const router = Router();
@@ -18,6 +19,8 @@ router.post("/ingresarServicioUsuario", ingresarServicioUsuario)
 router.get("/obtenerConsultorios",obtenerConsultorios) ;
 
 router.post("/obtenerCupoConsultorios", obtenerCupoConsultorios) 
+
+router.post("/obtenerPreciosServicios", obtenerPreciosServicios) 
 
 
 export default router;

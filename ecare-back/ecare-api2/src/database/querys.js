@@ -25,6 +25,10 @@ export const querys = {
   desplegarTodoConsultorios : "SELECT * FROM Consultorio;",
   desplegarFiltroConsultorios : "SELECT * FROM Consultorio WHERE id_consultorio = @id_consultorio;",
   darBajaUsuario : "UPDATE Usuario SET estatus = 2 WHERE curp = @curp;",
-  obtenerCupoConsulturios : "SELECT * FROM dbo.horas_ocupadas_de_consultorio(@id_consultorio, @fecha);"
+  obtenerCupoConsulturios : "SELECT * FROM dbo.horas_ocupadas_de_consultorio(@id_consultorio, @fecha);",
+  obtenerRecetas : "SELECT * FROM dbo.obtener_recetas(@curp);",
+  obtenerPreciosServicios : "SELECT * FROM dbo.obtener_precios_servicios(@curp, @id_cita);",
+  obtenerPreciosMedicamentos : "SELECT * FROM dbo.obtener_precios_medicamentos(@curp, @id_cita);",
+  obtenerCitasDoctor: "SELECT * FROM dbo.obtener_citas_doctor(@curp);"
 };
 

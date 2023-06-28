@@ -6,6 +6,7 @@ import {
   eliminarConsultorio,
   ingresarMedicamento,
   obtenerMedicamentos,
+  obtenerPreciosMedicamentos,
 } from "../controllers/medicamentos.controller.js";
 
 const router = Router();
@@ -20,6 +21,7 @@ router.post("/desplegarMedicamentos", desplegarMedicamentos);
 
 router.post("/desplegarConsultorios", desplegarConsultorios);
 router.post("/eliminarConsultorio", eliminarConsultorio);
+router.post("/obtenerPreciosMedicamentos", obtenerPreciosMedicamentos);
 
 
 
