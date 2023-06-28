@@ -31,7 +31,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const BotonAccion = ({ children, EliminarUsuario, curpUsuario}) => {
+const BotonAccion = ({ children, EliminarUsuario, curpUsuario }) => {
 
     const handleClick = () => {
         EliminarUsuario(curpUsuario);
@@ -56,10 +56,12 @@ export default function AltasBajasInfo() {
     const [especialidad, setEspecialidad] = useState('');
     const [ocupacion, setOcupacion] = useState('');
     const [activeIndex, setActiveIndex] = useState(null)
+    const [tipoPersona, setTipoPersona] = useState(0);
 
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect(() => {
+        setTipoPersona(parseInt(localStorage.getItem("tipoUsuario")))
         axios
             .get(`http://localhost:3001/usuarios/obtenerCaracteristicas`)
             .then((response) => {
@@ -102,7 +104,7 @@ export default function AltasBajasInfo() {
                 title: 'Se logró registrar al usuario de forma correcta',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
-              })
+            })
             setIsLoading(false);
         })
             .catch((error) => {
@@ -112,7 +114,7 @@ export default function AltasBajasInfo() {
                     text: 'Al parecer alguno de los parametros del formulario es incorrecto y no cumple con el formato.',
                     icon: 'error',
                     confirmButtonText: 'Corregir'
-                  })
+                })
             })
             .finally(() => {
             }
@@ -146,13 +148,13 @@ export default function AltasBajasInfo() {
         axios
             .post(`http://localhost:3001/usuarios/eliminarUsuario`, { curpUsuario })
             .then((response) => {
-                setUsuarios(response.data)
+                setUsuarios([])
                 setIsLoading(false);
                 Swal.fire({
                     title: 'Se logró eliminar al usuario correctamente',
                     icon: 'success',
                     confirmButtonText: 'Aceptar'
-                  })
+                })
             })
             .catch((error) => {
                 setIsLoading(false);
@@ -162,7 +164,7 @@ export default function AltasBajasInfo() {
                     text: 'Al parecer existe alguna restriccion al eliminar al usuario',
                     icon: 'error',
                     confirmButtonText: 'Aceptar'
-                  })
+                })
             })
             .finally(() => {
             }
@@ -336,11 +338,12 @@ export default function AltasBajasInfo() {
                                                 <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
-                                                {caracteristicas.tipo_usuario.map((item, i) => {
-                                                    return (
-                                                        <MenuItem key={i} value={item.id_tipo_usuario}>{item.tipo_usuario}</MenuItem>
-                                                    );
-                                                })}
+                                                {caracteristicas.tipo_usuario.map((item, i) =>
+                                                    tipoPersona === 3 ?
+                                                        <MenuItem key={i} value={item.id_tipo_usuario}>{item.tipo_usuario}</MenuItem> :
+                                                        item.id_tipo_usuario !== 3 ? <MenuItem key={i} value={item.id_tipo_usuario}>{item.tipo_usuario}</MenuItem> : null
+
+                                                )}
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -500,34 +503,61 @@ export default function AltasBajasInfo() {
 
                                         </TableHead>
                                         <TableBody>
-                                            {usuarios.map((row) => (
-                                                <TableRow
-                                                    key={row.curp}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell align="left">{row.curp}</TableCell>
-                                                    <TableCell align="left">{row.nombre}</TableCell>
-                                                    <TableCell align="left">{row.ap_paterno}</TableCell>
-                                                    <TableCell align="left">{row.ap_materno}</TableCell>
+                                            {usuarios.map((row) =>
+                                                tipoPersona === 3 ?
+                                                    <TableRow
+                                                        key={row.curp}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell align="left">{row.curp}</TableCell>
+                                                        <TableCell align="left">{row.nombre}</TableCell>
+                                                        <TableCell align="left">{row.ap_paterno}</TableCell>
+                                                        <TableCell align="left">{row.ap_materno}</TableCell>
 
-                                                    <TableCell align="left">{(row.id_tipo_usuario === 1 ? "Paciente" :
-                                                        (row.id_tipo_usuario === 2 ? "Doctor" : "Admin"))}</TableCell>
-                                                    <TableCell align="left"
-                                                        sx={{
-                                                            display: 'flex',
-                                                            flexDirection: 'column',
-                                                            alignItems: 'center',
-                                                        }}>
-                                                        <BotonAccion
-                                                            EliminarUsuario={EliminarUsuario}
-                                                            curpUsuario={row.curp}
-                                                        >
-                                                            Eliminar
-                                                        </BotonAccion>
-                                                       
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
+                                                        <TableCell align="left">{(row.id_tipo_usuario === 1 ? "Paciente" :
+                                                            (row.id_tipo_usuario === 2 ? "Doctor" : "Admin"))}</TableCell>
+                                                        <TableCell align="left"
+                                                            sx={{
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                                alignItems: 'center',
+                                                            }}>
+                                                            <BotonAccion
+                                                                EliminarUsuario={EliminarUsuario}
+                                                                curpUsuario={row.curp}
+                                                            >
+                                                                Eliminar
+                                                            </BotonAccion>
+
+                                                        </TableCell>
+                                                    </TableRow> :
+                                                    row.id_tipo_usuario !== 3 ? <TableRow
+                                                        key={row.curp}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell align="left">{row.curp}</TableCell>
+                                                        <TableCell align="left">{row.nombre}</TableCell>
+                                                        <TableCell align="left">{row.ap_paterno}</TableCell>
+                                                        <TableCell align="left">{row.ap_materno}</TableCell>
+
+                                                        <TableCell align="left">{(row.id_tipo_usuario === 1 ? "Paciente" :
+                                                            (row.id_tipo_usuario === 2 ? "Doctor" : "Admin"))}</TableCell>
+                                                        <TableCell align="left"
+                                                            sx={{
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                                alignItems: 'center',
+                                                            }}>
+                                                            <BotonAccion
+                                                                EliminarUsuario={EliminarUsuario}
+                                                                curpUsuario={row.curp}
+                                                            >
+                                                                Eliminar
+                                                            </BotonAccion>
+
+                                                        </TableCell>
+                                                    </TableRow> : null
+                                            )}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>

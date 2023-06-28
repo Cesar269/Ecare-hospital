@@ -231,7 +231,7 @@ export default function CitasDoctor() {
 
                         <AccordionTab header="Visualizar las citas de hoy">
 
-                        </AccordionTab>
+                        </AccordionTab> 
 
 
                     </Accordion>

@@ -94,7 +94,6 @@ export const registrarUsuario = async (req, res) => {
     let ap_maternoV = ap_materno == '' ? null : ap_materno;
     let celularV = celular == '' ? null : celular;
     let edadV = edad == '' ? null : parseInt(edad);
-    let sexoV = sexo == '' ? null : sexo;
     let ocupacionV = ocupacion == '' ? null : ocupacion;
     let tipo_usuarioV = tipo_usuario == '' ? null : tipo_usuario;
     let especialidadV = especialidad == '' ? null : especialidad;
@@ -106,13 +105,25 @@ export const registrarUsuario = async (req, res) => {
       .input("nombre", sql.VarChar, nombreV)
       .input("ap_paterno", sql.VarChar, ap_paternoV)
       .input("ap_materno", sql.VarChar, ap_maternoV)
-      .input("celular", sql.VarChar, celularV)
+      .input("celular", sql.VarChar, celularV.toString())
       .input("edad", sql.Int, edadV)
-      .input("id_sexo", sql.Int, sexoV)
-      .input("id_ocupacion", sql.Int, ocupacionV)
-      .input("id_tipo_usuario", sql.Int, tipo_usuarioV)
-      .input("id_especialidad", sql.Int, especialidadV)
-      .execute("insertar_usuario");
+      .input("sexo", sql.Int, sexo)
+      .input("ocupacion", sql.Int, ocupacionV)
+      .input("tipo_usuario", sql.Int, tipo_usuarioV)
+      .input("especialidad", sql.Int, especialidadV)
+      .query(querys.registrarUsuario);
+    const result1 = await pool
+      .request()
+      .input("curp", sql.VarChar, curp)
+      .query(querys.obtenerUsuario);
+    console.log(result1.recordset.length)
+    if (result1.recordset.length == 1) {
+      const result2 = await pool
+        .request()
+        .input("curp", sql.VarChar, curpV)
+        .input("id_especialidad", sql.Int, especialidad)
+        .query(querys.registrarEspecialidad);
+    }
     res.json(result);
   } catch (error) {
     res.status(500);
@@ -152,13 +163,13 @@ export const handleLogin = async (req, res) => {
   if (!result.recordset) return res.sendStatus(401);
 
   res.json(result.recordset[0]);
- 
+
 }
 
 
 export const desplegarUsuarios = async (req, res) => {
   try {
-    const { nombre, ap_materno, ap_paterno,  curp } = req.body;
+    const { nombre, ap_materno, ap_paterno, curp } = req.body;
     console.log(req.body)
     const pool = await getConnection();
     const result = await pool
@@ -168,6 +179,22 @@ export const desplegarUsuarios = async (req, res) => {
       .input("ap_paterno", sql.VarChar, ap_paterno)
       .input("ap_materno", sql.VarChar, ap_materno)
       .query(querys.obtenerDiferentesUsuarios);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
+export const eliminarUsuario = async (req, res) => {
+  try {
+    const { curpUsuario } = req.body;
+    console.log(req.body)
+    const pool = await getConnection();
+    const result = await pool
+      .request()
+      .input("curp", sql.VarChar, curpUsuario)
+      .query(querys.darBajaUsuario);
     res.json(result.recordset);
   } catch (error) {
     res.status(500);

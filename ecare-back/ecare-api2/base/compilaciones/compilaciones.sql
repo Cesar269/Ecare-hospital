@@ -23,11 +23,19 @@ GO
 -- GO
 
 -- SELECT * FROM dbo.ObtenerCitasDoctor('Luis Gonzalez Espinoza','NMEG920720ARVSCQ53');
+-- ALTER TABLE Usuario ADD estatus INT DEFAULT 1;
+-- GO
 
-SELECT * FROM Cita_Usuario Where id_cita = 1
-GO
+-- SELECT c.name AS nombre_columna, t.name AS tipo_dato, c.max_length AS longitud_maxima
+-- FROM sys.columns c
+-- JOIN sys.types t ON c.system_type_id = t.system_type_id
+-- WHERE c.object_id = OBJECT_ID('Cita');
+-- UPDATE Usuario SET estatus = 1 WHERE curp ='GOLM910523MDFNNM10'
+-- SELECT * FROM dbo.horas_ocupadas_de_consultorio(1, '2023/06/29');
+SELECT * FROM dbo.horas_ocupadas_de_consultorio(1, '2023/06/29');
+-- -- SELECT estatus FROM Usuario WHERE curp = 'GOLM910523MDFNNM10'
 
-
+-- UPDATE Usuario SET estatus = 1 WHERE curp = 'GOLM910523MDFNNM10'
 
 -- SELECT Ciu.curp
 -- FROM Cita_Usuario Ciu
@@ -39,20 +47,7 @@ GO
 --     INNER JOIN Usuario U ON CU.curp = U.curp
 --     WHERE U.curp like 'TSNO910309RJYXZV84') AS t2 ON Ciu.id_cita = t2.id_cita
 -- GROUP BY Ciu.curp
--- HAVING COUNT(Ciu.curp) = 1;
-CREATE PROCEDURE MostrarCitasDoctorHoy
-    @curpDoctor VARCHAR(18)
-AS
-BEGIN
-    SELECT Cita.id_cita, Cita.notas, Cita.fecha, Tipo_Servicio.tipo_servicio
-    FROM Cita
-    INNER JOIN Tipo_Servicio ON Cita.id_tipo_servicio = Tipo_Servicio.id_tipo_servicio
-    INNER JOIN Consultorio ON Tipo_Servicio.id_consultorio = Consultorio.id_consultorio
-    INNER JOIN Usuario ON Consultorio.curp_doctor = Usuario.curp
-    WHERE Usuario.curp = @curpDoctor
-        AND Cita.fecha = CAST(GETDATE() AS DATE);
-END;
-
+-- HAVING COUNT(Ciu.curp) 
 
 
     -- SELECT U.curp,C.id_cita, C.notas, C.fecha, TS.tipo_servicio, TS.costo

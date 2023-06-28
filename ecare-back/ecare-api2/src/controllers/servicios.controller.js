@@ -50,3 +50,30 @@ export const ingresarServicioUsuario = async (req, res) => {
         res.send(error.message);
     }
 };
+
+export const obtenerConsultorios = async (req, res) => {
+    try {
+        const pool = await getConnection();
+        const result = await pool.request().query(querys.obtenerConsultorios);
+        res.json(result.recordset);
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
+export const obtenerCupoConsultorios = async (req, res) => {
+    try {
+        const { fecha, id_consultorio } = req.body;
+        const pool = await getConnection();
+        const result = await pool
+            .request()
+            .input("fecha", sql.VarChar, fecha)
+            .input("id_consultorio", sql.Int, id_consultorio)
+            .query(querys.obtenerCupoConsulturios);
+        res.json(result.recordset);
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};

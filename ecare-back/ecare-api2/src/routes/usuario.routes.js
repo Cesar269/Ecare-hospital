@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   actualizarUsuario,
   desplegarUsuarios,
+  eliminarUsuario,
   handleLogin,
   login,
   obtenerCaracteristicas,
@@ -21,6 +22,8 @@ router.get("/obtenerCaracteristicas", obtenerCaracteristicas);
 router.post("/registrarUsuario", registrarUsuario);
 
 router.post("/desplegarUsuarios", desplegarUsuarios);
+
+router.post("/eliminarUsuario", eliminarUsuario);
 
 router.post('/login',handleLogin);
 
